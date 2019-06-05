@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  //grab canvas
+  const canvas = document.querySelector('#draw');
+  //grab the context (what you will be drawing on)
+  const ctx = canvas.getContext('2d');
+
+  //resize the canvas to be the same size as window
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  //base setting
+  ctx.strokeStyle = '#BADA55' //colour
+  ctx.lineJoin = 'round'; 
+  ctx.lineCap='round';
+  ctx.lineWidth = 20;
+
+  let isDrawing = false; //change to true when mouse click down
+  //start/end coordinates for the line when drawing
+  let lastX = 0; 
+  let lastY = 0;
+  let hue = 0; //variable to change colour as we draw, using mothereffing hsl. 
+
+  function draw (e) {
+    if (!isDrawing) return; //stop the function from running  when they are not moused down
+    console.log(e);
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+    //start a path to begin drawing
+    ctx.beginPath();
+    //start with an X and Y, and move to an X and Y
+    //start from
+    ctx.moveTo(lastX, lastY);
+    //go to
+    ctx.lineTo(e.offsetX, e.offsetY);
+    //create the line
+    ctx.stroke();
+    //update variables to mouse co-ordinates
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+    //incrementing the variable to change hue
+    hue++; 
+    if (hue >= 360) {
+      hue = 0;
+    }
+  }
+
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    //need to update lastX and lastY or else all drawings will start at 0,0.
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>

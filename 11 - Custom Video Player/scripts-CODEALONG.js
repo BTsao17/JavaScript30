@@ -27,10 +27,22 @@ function updateButton() {
   //console.log('update the button')
 }
 
+function skip() {
+  //how much the video is going to skip by looking at data-skip value on the buttons
+  console.log('skipping');
+  console.log(this.dataset);
+  console.log(this.dataset.skip);
+  video.currentTime += parseFloat(this.dataset.skip);
+}
+
 //Hook up Event Listeners
 //invoke togglePlay() when video is clicked and when the play button is clicked
 video.addEventListener('click', togglePlay);
 toggle.addEventListener('click', togglePlay);
+
 //to change the toggle icon when paused/playing
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
+
+//skip ahead or backtrack
+skipButtons.forEach(button => button.addEventListener('click', skip));

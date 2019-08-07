@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+  const keysPressed = [];
+  const secretCode = 'wesbos'
+  window.addEventListener('keyup', (e) => {
+    //console.log(e.key);
+    keysPressed.push(e.key);
+
+    //only want the array length to be the same as the secret code. 
+    keysPressed.splice(-secretCode.length-1, keysPressed.length - secretCode.length)
+    
+    if(keysPressed.join('') === secretCode){
+      console.log("wohoo")
+      cornify_add();
+    }
+  })
+</script>
+</body>
+</html>
